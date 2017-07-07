@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="search">Search</string>
+    <string name="action_about">About</string>
+    <string name="About_Text">
+        Application version 1.0\n\n
+        Application Author:\n
+        Harkovenko Vladislav.
+        </string>
+    <string name="Notes">Notes</string>
+    <string name="Marked">Marked</string>
+    <string name="Create">Create</string>
+    <string name="Trash">Trash</string>
+    <string name="About">About</string>
+    <string name="Exit"> To exit, press again the "Back"</string>
+    <string name="EmptyTrash">Empty Trash</string>
+    <string name="SelectColor">Select Color</string>
+    <string name="NotifCreated">Note saved</string>
+    <string name="NotifMove">Note moved to Trash</string>
+    <string name="NotifEmpty">No notes in trash</string>
+    <string name="Restore">Restore</string>
+    <string name="OK">OK</string>
+    <string name="drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="screen_one">Notes</string>
+    <string name="screen_three">Trash</string>
+    <string name="add_record">Add</string>
+    <string name="delete_record">Move to trash</string>
+    <string name="restore_record">Restore</string>
+    <string name="Save">Save</string>
+    <string name="Clear">Clear</string>
+    <string name="Text">Note</string>
+    <string name="Dialog_Title">Empty Trash?</string>
+    <string name="Dialog_BtnOK">Empty Trash</string>
+    <string name="Dialog_BtnCancel">Cancel</string>
+    <string name="Normal" translatable="false">Normal</string>
+    <string name="Bold" translatable="false">Bold</string>
+    <string name="Italic" translatable="false">Italic</string>
+    <string name="title_activity_update" translatable="false">UpdateActivity</string>
+    <string name="title_activity_create" translatable="false">CreateActivity</string>
+    <string name="title_activity_splash" translatable="false">Notes</string>
+    <string name="Dialog_Text">All notes in Trash will be permanently deleted.</string>
+    <string name="Title">Title</string>
+</resources>

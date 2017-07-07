@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="About">О программе</string>
+    <string name="Create">Создать</string>
+    <string name="Dialog_BtnCancel">Отмена</string>
+    <string name="Notes">Заметки</string>
+    <string name="Save">Сохранить</string>
+    <string name="Clear">Очистить</string>
+    <string name="Dialog_Title">Очистить корзину?</string>
+    <string name="Dialog_BtnOK">Очистить корзину</string>
+    <string name="Dialog_Text">Все заметки из корзины будут удалены навсегда.</string>
+    <string name="Text">Текст</string>
+    <string name="Title">Название</string>
+    <string name="Trash">Корзина</string>
+    <string name="EmptyTrash">Очистить корзину</string>
+    <string name="Marked">Важные</string>
+    <string name="NotifCreated">Заметка сохранена</string>
+    <string name="delete_record">Переместить в корзину</string>
+    <string name="restore_record">Восстановить запись</string>
+    <string name="search">Поиск</string>
+    <string name="screen_three">Корзина</string>
+    <string name="action_about">О программе</string>
+    <string name="screen_one">Заметки</string>
+    <string name="NotifEmpty">Нет заметок</string>
+    <string name="NotifMove">Заметка перемещена в корзину</string>
+    <string name="Exit">Для выхода нажмите еще раз кнопку "Назад"</string>
+    <string name="About_Text">
+        Версия приложения 1.0\n\n
+        Автор приложения:\n
+        Гарковенко Владислав.
+    </string>
+    <string name="SelectColor">Выберите цвет</string>
+    <string name="Restore">Восстановить</string>
+    <string name="add_record">Добавить</string>
+</resources>
