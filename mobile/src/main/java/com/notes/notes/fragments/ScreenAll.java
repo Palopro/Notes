@@ -30,7 +30,7 @@ import com.notes.notes.R;
 import com.notes.notes.activity.CreateActivity;
 import com.notes.notes.adapter.MainRecyclerViewAdapter;
 import com.notes.notes.database.DB;
-import com.notes.notes.entity.Information;
+import com.notes.notes.entity.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +42,6 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class ScreenAll extends Fragment implements OnClickListener {
 
-    /*
-    TODO: AsyncTask for load data from DB
-    */
-
     // LOG TAG
     final String LOG_TAG = "ScreenAll";
 
@@ -54,7 +50,7 @@ public class ScreenAll extends Fragment implements OnClickListener {
     static String key = "first_launch";
     boolean val = true;
 
-    List<Information> data;
+    List<Item> data;
 
     RecyclerView recyclerView;
     MainRecyclerViewAdapter adapter;
@@ -117,12 +113,6 @@ public class ScreenAll extends Fragment implements OnClickListener {
             prompt.show();
         }
 
-        // Properties RecyclerView
-        //setMainRecyclerView();
-
-        //GetDataTask GetDataTask = new GetDataTask();
-        //GetDataTask.execute();
-
         //TODO: WARNING !!!
         new GetDataTask().execute();
 
@@ -151,16 +141,17 @@ public class ScreenAll extends Fragment implements OnClickListener {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                setSearch(query);
+                getSearch(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                setSearch(newText);
+                getSearch(newText);
                 return false;
             }
         });
@@ -168,7 +159,7 @@ public class ScreenAll extends Fragment implements OnClickListener {
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                setMainRecyclerView();
+                new GetDataTask().execute();
                 return false;
             }
         });
@@ -182,7 +173,7 @@ public class ScreenAll extends Fragment implements OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setSearch(String value) {
+    private void getSearch(String value) {
         adapter = new MainRecyclerViewAdapter(getContext(), searchData(value));
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -191,12 +182,14 @@ public class ScreenAll extends Fragment implements OnClickListener {
         adapter.notifyDataSetChanged();
     }
 
-    private List<Information> searchData(String value) {
-        List<Information> search = new ArrayList<>();
-        Information info;
+    private List<Item> searchData(String value) {
+        List<Item> search = new ArrayList<>();
+        Item item;
         Cursor c = db.searchItem(value);
+
         if (c != null) {
             while (c.moveToNext()) {
+
                 int column_id = c.getColumnIndex(DB.getColumnId());
                 String Index = c.getString(column_id);
                 int column_title = c.getColumnIndex(DB.getColumnTitle());
@@ -207,39 +200,39 @@ public class ScreenAll extends Fragment implements OnClickListener {
                 String Date = c.getString(column_date);
                 int column_type = c.getColumnIndex(DB.getColumnType());
                 String Type = c.getString(column_type);
-                int column_mark = c.getColumnIndex(DB.getColumnMark());
-                int Mark = c.getInt(column_mark);
+                int column_mark = c.getColumnIndex(String.valueOf(DB.getColumnMark()));
+                int mark = c.getInt(column_mark);
                 int column_color = c.getColumnIndex(DB.getColumnColor());
                 String Color = c.getString(column_color);
 
-                info = new Information();
-                info.setId(Index);
-                info.setTitle(Title);
-                info.setText(Text);
-                info.setDate(Date);
-                info.setType(Type);
-                info.setMark(String.valueOf(Mark));
-                info.setColor(Color);
+                item = new Item();
+                item.setId(Index);
+                item.setTitle(Title);
+                item.setText(Text);
+                item.setDate(Date);
+                item.setType(Type);
+                item.setMark(DB.getColumnMark());
+                item.setColor(Color);
 
-                if (Mark == 0) {
-                    info.setImage_id(R.drawable.fav_24x24);
-
-                } else {
-                    info.setImage_id(R.drawable.fav_24x24_fill);
+                if (mark == 1) {
+                    item.setImage_id(R.drawable.fav_24x24_fill);
                 }
-                //.d(LOG_TAG, "ID= " + Index + " Title= " + Title + " Text= " + Text + " Date= " + Date + " Type= " + Type + " Image= " + Mark);
-                search.add(info);
+
+                //Log.d(LOG_TAG, "ID= " + Index + " Title= " + Title + " Text= " + Text + " Date= " + Date + " Type= " + Type + " Image= " + Mark);
+
+                search.add(item);
             }
         }
         return search;
     }
 
-    private List<Information> getData() {
+    private List<Item> getData() {
         data = new ArrayList<>();
-        Information mainInfo;
+        Item item;
         Cursor c = db.getAllData();
         if (c != null) {
             while (c.moveToNext()) {
+
                 int column_id = c.getColumnIndex(DB.getColumnId());
                 String Index = c.getString(column_id);
                 int column_title = c.getColumnIndex(DB.getColumnTitle());
@@ -250,25 +243,25 @@ public class ScreenAll extends Fragment implements OnClickListener {
                 String Date = c.getString(column_date);
                 int column_type = c.getColumnIndex(DB.getColumnType());
                 String Type = c.getString(column_type);
-                int column_mark = c.getColumnIndex(DB.getColumnMark());
-                int Mark = c.getInt(column_mark);
+                int column_mark = c.getColumnIndex(String.valueOf(DB.getColumnMark()));
+                int mark = c.getInt(column_mark);
                 int column_color = c.getColumnIndex(DB.getColumnColor());
                 String Color = c.getString(column_color);
 
-                mainInfo = new Information();
-                mainInfo.setId(Index);
-                mainInfo.setTitle(Title);
-                mainInfo.setText(Text);
-                mainInfo.setDate(Date);
-                mainInfo.setType(Type);
-                mainInfo.setColor(Color);
+                item = new Item();
+                item.setId(Index);
+                item.setTitle(Title);
+                item.setText(Text);
+                item.setDate(Date);
+                item.setType(Type);
+                item.setMark(DB.getColumnMark());
+                item.setColor(Color);
 
-                if (Mark == 1) {
-                    mainInfo.setImage_id(R.drawable.fav_24x24_fill);
+                if (mark == 1) {
+                    item.setImage_id(R.drawable.fav_24x24_fill);
                 }
+                data.add(item);
 
-                data.add(mainInfo);
-                Log.d(LOG_TAG, Index + " " + Title + ", " + Text);
             }
         }
         return data;
@@ -347,7 +340,7 @@ public class ScreenAll extends Fragment implements OnClickListener {
             db.open();
             try {
                 getData();
-            } catch (DatabaseException e){
+            } catch (DatabaseException e) {
                 e.printStackTrace();
                 db.close();
             }

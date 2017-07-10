@@ -25,13 +25,14 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.notes.notes.R;
 import com.notes.notes.database.DB;
-import com.notes.notes.entity.Information;
+import com.notes.notes.entity.Item;
 import com.notes.notes.fragments.ScreenAll;
 import com.notes.notes.fragments.ScreenMarked;
 import com.notes.notes.fragments.ScreenTrash;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     GoogleApiClient googleApiClient;
 
     private final String Note_List = "/noteList";
-    List<Information> data;
+    List<Item> data;
     DataMap dataMap;
 
     private Toolbar toolbar;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         initToolBar(); // ToolBar
         initNavigationView(); // Navigation Drawer
         initScreenAll(); // Fragment ScreenAll
-
 
         // Google Api for wear
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -183,14 +183,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         fragmentManager.beginTransaction().replace(R.id.content_frame, ScreenOne).commit();
     }
 
-    private List<Information> fetchData() {
+    private List<Item> fetchData() {
         data = new ArrayList<>();
 
         // Database connect
         DB db = new DB(getApplicationContext());
         db.open();
 
-        Information mainInfo;
+        Item item;
         Cursor c = db.getAllData();
 
         // send data from DB to ArrayList
@@ -203,12 +203,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 int column_text = c.getColumnIndex(DB.getColumnText());
                 String Text = c.getString(column_text);
 
-                mainInfo = new Information();
-                mainInfo.setId(Index);
-                mainInfo.setTitle(Title);
-                mainInfo.setText(Text);
+                item = new Item();
+                item.setId(Index);
+                item.setTitle(Title);
+                item.setText(Text);
 
-                data.add(mainInfo);
+                data.add(item);
 
             }
         }
@@ -220,12 +220,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(Note_List).setUrgent();
         dataMap = putDataMapRequest.getDataMap();
 
-        for (Information information : data) {
+        for (Item item : data) {
             DataMap noteMap = new DataMap();
-            noteMap.putLong("Id", Long.parseLong(information.getId()));
-            noteMap.putString("Title", information.getTitle());
-            noteMap.putString("Text", information.getText());
-            dataMap.putDataMap(information.getId(), noteMap);
+            noteMap.putLong("Id", Long.parseLong(item.getId()));
+            noteMap.putString("Title", item.getTitle());
+            noteMap.putString("Text", item.getText());
+            dataMap.putDataMap(item.getId(), noteMap);
         }
 
         Log.d(LOG_TAG, "Send " + dataMap);

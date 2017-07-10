@@ -16,19 +16,20 @@ import android.widget.TextView;
 
 import com.notes.notes.R;
 import com.notes.notes.database.DB;
-import com.notes.notes.entity.Information;
+
+import com.notes.notes.entity.Item;
 
 import java.util.List;
 
 public class TrashRecyclerViewAdapter extends RecyclerView.Adapter<TrashRecyclerViewAdapter.TrashViewHolder> {
 
     // LOG TAG
-    final String LOG_TAG = "TrashRecyclerViewAdapter";
+    private static final String LOG_TAG = "TrashAdapter";
 
-    public List<Information> mainInfo;
+    private List<Item> mainInfo;
     private Context mContext;
 
-    public TrashRecyclerViewAdapter(Context context, List<Information> mainInfo) {
+    public TrashRecyclerViewAdapter(Context context, List<Item> mainInfo) {
         this.mContext = context;
         this.mainInfo = mainInfo;
     }
@@ -65,10 +66,8 @@ public class TrashRecyclerViewAdapter extends RecyclerView.Adapter<TrashRecycler
                         int position = holder.getLayoutPosition();
                         DB db = new DB(mContext);
                         db.open();
-
-                        Log.d(LOG_TAG, "Context Menu Click Delete ID = " + id);
-
                         db.restoreData(id);
+                        Log.d(LOG_TAG, "Context Menu Click Delete ID = " + id);
                         mainInfo.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, getItemCount());
@@ -85,7 +84,7 @@ public class TrashRecyclerViewAdapter extends RecyclerView.Adapter<TrashRecycler
         return mainInfo.size();
     }
 
-    public class TrashViewHolder extends RecyclerView.ViewHolder {
+    class TrashViewHolder extends RecyclerView.ViewHolder {
 
         CardView card;
 
@@ -95,7 +94,7 @@ public class TrashRecyclerViewAdapter extends RecyclerView.Adapter<TrashRecycler
         TextView Type;
         ImageView Image;
 
-        public TrashViewHolder(View itemView) {
+        TrashViewHolder(View itemView) {
             super(itemView);
 
             card = (CardView) itemView.findViewById(R.id.cardView);

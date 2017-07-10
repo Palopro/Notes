@@ -1,6 +1,6 @@
 package com.notes.notes.entity;
 
-public class Information {
+public class Item {
 
     private String Id;
     private String Title;

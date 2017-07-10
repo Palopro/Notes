@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import com.notes.notes.R;
 import com.notes.notes.adapter.TrashRecyclerViewAdapter;
 import com.notes.notes.database.DB;
-import com.notes.notes.entity.Information;
+import com.notes.notes.entity.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,9 +119,9 @@ public class ScreenTrash extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public List<Information> getTrashData() {
-        List<Information> data = new ArrayList<>();
-        Information mainInfo;
+    public List<Item> getTrashData() {
+        List<Item> data = new ArrayList<>();
+        Item item;
         Cursor c = db.getTrashData();
         if (c != null) {
             while (c.moveToNext()) {
@@ -140,27 +140,25 @@ public class ScreenTrash extends Fragment {
                 int column_type = c.getColumnIndex(DB.getColumnType());
                 String Type = c.getString(column_type);
 
-                int column_mark = c.getColumnIndex(DB.getColumnMark());
+                int column_mark = c.getColumnIndex(String.valueOf(DB.getColumnMark()));
                 int Mark = c.getInt(column_mark);
 
                 int column_color = c.getColumnIndex(DB.getColumnColor());
                 String Color = c.getString(column_color);
 
-                mainInfo = new Information();
-                mainInfo.setId(Index);
-                mainInfo.setTitle(Title);
-                mainInfo.setText(Text);
-                mainInfo.setDate(Date);
-                mainInfo.setType(Type);
-                mainInfo.setColor(Color);
+                item = new Item();
+                item.setId(Index);
+                item.setTitle(Title);
+                item.setText(Text);
+                item.setDate(Date);
+                item.setType(Type);
+                item.setColor(Color);
 
                 if (Mark == 1) {
-                    mainInfo.setImage_id(R.drawable.fav_24x24_fill);
-                } else {
-                    mainInfo.setColor_id(R.drawable.fav_24x24);
+                    item.setImage_id(R.drawable.fav_24x24_fill);
                 }
 
-                data.add(mainInfo);
+                data.add(item);
             }
         }
         Log.d(LOG_TAG, "Size of trash = " + String.valueOf(data.size()));
@@ -170,9 +168,6 @@ public class ScreenTrash extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //GetTrashDataTask getTrashDataTask = new GetTrashDataTask();
-        //getTrashDataTask.execute();
-        // setMainRecyclerView();
 
         //TODO: WARNING !!!
         new GetTrashDataTask().execute();

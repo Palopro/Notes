@@ -18,21 +18,21 @@ import android.widget.TextView;
 import com.notes.notes.R;
 import com.notes.notes.activity.UpdateActivity;
 import com.notes.notes.database.DB;
-import com.notes.notes.entity.Information;
+import com.notes.notes.entity.Item;
 
 import java.util.List;
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MainViewHolder> {
 
     // LOG TAG
-    final String LOG_TAG = "MainRecyclerViewAdapter";
+    private static final String LOG_TAG = "MainAdapter";
 
     // List
-    public List<Information> mainInfo;
+    private List<Item> mainInfo;
     private Context mContext;
 
     // Constructor with parameters
-    public MainRecyclerViewAdapter(Context context, List<Information> mainInfo) {
+    public MainRecyclerViewAdapter(Context context, List<Item> mainInfo) {
         this.mContext = context;
         this.mainInfo = mainInfo;
     }
@@ -109,7 +109,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
 
-    public class MainViewHolder extends RecyclerView.ViewHolder {
+    class MainViewHolder extends RecyclerView.ViewHolder {
 
         CardView card;
 
@@ -119,7 +119,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         TextView Type;
         ImageView Image;
 
-        public MainViewHolder(final View itemView) {
+        private MainViewHolder(final View itemView) {
 
             super(itemView);
 

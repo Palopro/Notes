@@ -19,7 +19,7 @@ import com.notes.notes.R;
 import com.notes.notes.activity.CreateActivity;
 import com.notes.notes.adapter.MainRecyclerViewAdapter;
 import com.notes.notes.database.DB;
-import com.notes.notes.entity.Information;
+import com.notes.notes.entity.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,41 +67,46 @@ public class ScreenMarked extends Fragment implements View.OnClickListener {
     }
 
 
-    public List<Information> getData() {
-        List<Information> data = new ArrayList<>();
-        Information mainInfo;
+    public List<Item> getData() {
+        List<Item> data = new ArrayList<>();
+        Item item;
         Cursor c = db.getMarkedData();
         if (c != null) {
             while (c.moveToNext()) {
+
                 int column_id = c.getColumnIndex(DB.getColumnId());
                 String Index = c.getString(column_id);
+
                 int column_title = c.getColumnIndex(DB.getColumnTitle());
                 String Title = c.getString(column_title);
+
                 int column_text = c.getColumnIndex(DB.getColumnText());
                 String Text = c.getString(column_text);
+
                 int column_date = c.getColumnIndex(DB.getColumnDate());
                 String Date = c.getString(column_date);
+
                 int column_type = c.getColumnIndex(DB.getColumnType());
                 String Type = c.getString(column_type);
-                int column_mark = c.getColumnIndex(DB.getColumnMark());
+
+                int column_mark = c.getColumnIndex(String.valueOf(DB.getColumnMark()));
                 int Mark = c.getInt(column_mark);
+
                 int column_color = c.getColumnIndex(DB.getColumnColor());
                 String Color = c.getString(column_color);
 
-                mainInfo = new Information();
-                mainInfo.setId(Index);
-                mainInfo.setTitle(Title);
-                mainInfo.setText(Text);
-                mainInfo.setDate(Date);
-                mainInfo.setType(Type);
-                mainInfo.setColor(Color);
+                item = new Item();
+                item.setId(Index);
+                item.setTitle(Title);
+                item.setText(Text);
+                item.setDate(Date);
+                item.setType(Type);
+                item.setColor(Color);
 
-                if (Mark == 0) {
-                    mainInfo.setImage_id(R.drawable.fav_24x24);
-                } else {
-                    mainInfo.setImage_id(R.drawable.fav_24x24_fill);
+                if (Mark == 1) {
+                    item.setImage_id(R.drawable.fav_24x24_fill);
                 }
-                data.add(mainInfo);
+                data.add(item);
             }
         }
         return data;
@@ -134,7 +139,7 @@ public class ScreenMarked extends Fragment implements View.OnClickListener {
             Log.d(LOG_TAG, "Result Code = " + resultCode);
         } else {
             Log.d(LOG_TAG, "Result Code = " + resultCode);
-            Snackbar.make(recyclerView, "Запись сохранена", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(recyclerView, R.string.NotifCreated, Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -167,6 +172,7 @@ public class ScreenMarked extends Fragment implements View.OnClickListener {
             try {
                 getData();
             } finally {
+                //TODO: WARNING !!!
                 //db.close();
             }
             return null;
